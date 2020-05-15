@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
+const User = require('./models/user');
+
 dotenv.config();
 
 const app = express()
@@ -22,15 +24,9 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false }));
 
-//Get - Retieve data from the server
-app.get("/", (req, res) => {
-    res.json("Hello World Kutiba")
-});
-
-//POST - Sent data from frontent to backend 
-app.post("/", (req, res) => {
-    console.log(req.body.name);
-});
+// require apis
+const productRoutes = require('./routes/product');
+app.use("/api", productRoutes);
 
 app.listen(3000, err => {
     if(err) {
