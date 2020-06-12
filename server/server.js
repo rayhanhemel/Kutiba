@@ -10,6 +10,9 @@ dotenv.config();
 
 const app = express()
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 mongoose.connect(process.env.DATABASE, { useUnifiedTopology: true, useNewUrlParser: true }, err => {
     if (err) {
@@ -26,7 +29,12 @@ app.use(bodyParser.urlencoded({extended: false }));
 
 // require apis
 const productRoutes = require('./routes/product');
+const categoryRoutes = require('./routes/category');
+const ownerRoutes = require('./routes/owner');
+
 app.use("/api", productRoutes);
+app.use("/api", categoryRoutes);
+app.use("/api", ownerRoutes);
 
 app.listen(3000, err => {
     if(err) {
